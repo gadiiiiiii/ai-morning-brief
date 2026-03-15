@@ -1,0 +1,35 @@
+name: AI Morning Brief
+
+on:
+  schedule:
+    # Runs at 7:00 AM Central Time (12:00 UTC) every day
+    # Adjust the hour to match your preferred time:
+    #   6 AM CT  = 11:00 UTC  → change to: '0 11 * * *'
+    #   7 AM CT  = 12:00 UTC  → '0 12 * * *'
+    #   8 AM CT  = 13:00 UTC  → '0 13 * * *'
+    - cron: '0 12 * * *'
+  workflow_dispatch: # lets you trigger it manually from GitHub too
+
+jobs:
+  send-brief:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Generate and send brief
+        env:
+          ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_ADDRESS:       ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD:  ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL:     ${{ secrets.RECIPIENT_EMAIL }}
+        run: python send_brief.py
