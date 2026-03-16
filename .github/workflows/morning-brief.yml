@@ -2,12 +2,10 @@ name: AI Morning Brief
 
 on:
   schedule:
-    # Runs at 7:00 AM Central Time (12:00 UTC) every day
-    # Adjust the hour to match your preferred time:
-    #   6 AM CT  = 11:00 UTC  → change to: '0 11 * * *'
-    #   7 AM CT  = 12:00 UTC  → '0 12 * * *'
-    #   8 AM CT  = 13:00 UTC  → '0 13 * * *'
-    - cron: '0 12 * * *'
+    # Runs at 7:00 AM Eastern Time (Indianapolis) every day
+    # 7 AM EDT (Mar–Nov) = 11:00 UTC
+    # 7 AM EST (Nov–Mar) = 12:00 UTC  ← will run at 7 AM in winter too if you change to '0 12 * * *'
+    - cron: '0 11 * * *'
   workflow_dispatch: # lets you trigger it manually from GitHub too
 
 jobs:
